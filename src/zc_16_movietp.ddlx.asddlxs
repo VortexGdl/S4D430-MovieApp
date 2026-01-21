@@ -1,6 +1,10 @@
 @Metadata.layer: #CUSTOMER
 
-@UI.headerInfo: { typeNamePlural: 'Movies', imageUrl: 'Picture', title.value: 'Title', description.value: 'PublishingYear' }
+@UI.headerInfo: { typeNamePlural: 'Movies',
+                  typeName: 'Movie',
+                  imageUrl: 'ImageUrl',
+                  title.value: 'Title',
+                  description.value: 'PublishingYear' }
 
 annotate entity ZC_16_MovieTP
   with
@@ -8,10 +12,11 @@ annotate entity ZC_16_MovieTP
 {
   // Facets
   @UI.facet: [ { position: 10, type: #FIELDGROUP_REFERENCE, targetQualifier: 'Details', label: 'Movie Details'      },
-               { position: 20, type: #FIELDGROUP_REFERENCE, targetQualifier: 'Admin',   label: 'Administrativ Data' } ]
+               { position: 20, type: #FIELDGROUP_REFERENCE, targetQualifier: 'Admin',   label: 'Administrativ Data' },
+               { position: 30, type: #LINEITEM_REFERENCE, targetElement: '_Ratings',   label: 'Rating Data' } ]
 
   // Fields
-  @UI.fieldGroup: [{ position: 10, qualifier: 'Admin' }]
+  @UI.fieldGroup: [ { position: 10, qualifier: 'Admin' } ]
   MovieUuid;
 
   @UI.fieldGroup: [ { position: 20, qualifier: 'Details' } ]
@@ -34,8 +39,8 @@ annotate entity ZC_16_MovieTP
   RuntimeInMin;
 
   @UI.fieldGroup: [ { position: 60, qualifier: 'Details' } ]
-  @UI.lineItem: [{ position: 10 }]
-  Picture;
+  @UI.lineItem: [ { position: 10 } ]
+  ImageUrl;
 
   @UI.fieldGroup: [ { position: 20, qualifier: 'Admin' } ]
   CreatedAt;

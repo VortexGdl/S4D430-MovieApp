@@ -8,8 +8,8 @@
 
 @Search.searchable: true
 
-define view entity ZC_16_MovieTP
-  as select from ZR_16_MovieTP
+define root view entity ZC_16_MovieTP
+  as projection on ZR_16_MovieTP
 
 {
   key MovieUuid,
@@ -22,9 +22,12 @@ define view entity ZC_16_MovieTP
       PublishingYear,
       RuntimeInMin,
       @Semantics.imageUrl
-      ImageUrl as Picture,
+      ImageUrl,
       CreatedAt,
       CreatedBy,
       LastChangedAt,
-      LastChangedBy
+      LastChangedBy,
+      
+      //Association
+      _Ratings : redirected to composition child ZC_16_RatingTP
 }

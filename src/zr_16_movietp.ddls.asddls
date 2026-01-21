@@ -4,8 +4,10 @@
 
 @EndUserText.label: 'Movie Restricted'
 
-define view entity ZR_16_MovieTP
+define root view entity ZR_16_MovieTP
   as select from ZI_16_Movie
+
+  composition [0..*] of ZR_16_RatingTP as _Ratings
 
 {
   key MovieUuid,
@@ -18,5 +20,8 @@ define view entity ZR_16_MovieTP
       CreatedAt,
       CreatedBy,
       LastChangedAt,
-      LastChangedBy
+      LastChangedBy,
+
+      // Association
+      _Ratings
 }
