@@ -9,6 +9,7 @@
 @Search.searchable: true
 
 define root view entity ZC_16_MovieTP
+  provider contract transactional_query
   as projection on ZR_16_MovieTP
 
 {
@@ -18,6 +19,7 @@ define root view entity ZC_16_MovieTP
       @Search.fuzzinessThreshold: 0.7
       Title,
 
+      @Consumption.valueHelpDefinition: [ { entity: { name: 'ZI_16_GENREVH', element: 'Genre' } } ]
       @ObjectModel.text.element: [ 'GenreText' ]
       Genre,
 
