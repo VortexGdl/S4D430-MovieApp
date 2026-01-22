@@ -2,44 +2,46 @@
 
 @UI.headerInfo: { typeNamePlural: 'Movies',
                   typeName: 'Movie',
-                  imageUrl: 'ImageUrl',
                   title.value: 'Title',
-                  description.value: 'PublishingYear' }
+                  description.value: 'PublishingYear',
+                  imageUrl: 'ImageUrl' }
 
-annotate entity ZC_16_MovieTP
-  with
+@UI.lineItem: [ { criticality: 'AverageRatingCriticality' } ]
+@UI.presentationVariant: [ { sortOrder: [ { by: 'AverageRating', direction: #DESC } ] } ]
+
+annotate entity ZC_16_MovieTP with
 
 {
-  // Facets
-  @UI.facet: [ { position: 10, type: #FIELDGROUP_REFERENCE, targetQualifier: 'Details', label: 'Movie Details'      },
-               { position: 20, type: #FIELDGROUP_REFERENCE, targetQualifier: 'Admin',   label: 'Administrativ Data' },
-               { position: 30, type: #LINEITEM_REFERENCE, targetElement: '_Ratings',   label: 'Rating Data' } ]
+  /* Factes */
+  @UI.facet: [ { position: 10, type: #FIELDGROUP_REFERENCE, label: 'Movie Details', targetQualifier: 'Details' },
+               { position: 20, type: #FIELDGROUP_REFERENCE, label: 'Administrative Data', targetQualifier: 'Admin' },
+               { position: 30, type: #LINEITEM_REFERENCE, label: 'Ratings', targetElement: '_Ratings' } ]
 
-  // Fields
+  /* Fields */
   @UI.fieldGroup: [ { position: 10, qualifier: 'Admin' } ]
   MovieUuid;
 
+  @UI.fieldGroup: [ { position: 10, qualifier: 'Details' } ]
+  @UI.lineItem: [ { position: 10 } ]
+  Title;
+
   @UI.fieldGroup: [ { position: 20, qualifier: 'Details' } ]
   @UI.lineItem: [ { position: 20 } ]
-  Title;
+  @UI.selectionField: [ { position: 10 } ]
+  Genre;
 
   @UI.fieldGroup: [ { position: 30, qualifier: 'Details' } ]
   @UI.lineItem: [ { position: 30 } ]
-  @UI.selectionField: [ { position: 30 } ]
-  Genre;
+  @UI.selectionField: [ { position: 20 } ]
+  PublishingYear;
 
   @UI.fieldGroup: [ { position: 40, qualifier: 'Details' } ]
   @UI.lineItem: [ { position: 40 } ]
-  @UI.selectionField: [ { position: 40 } ]
-  PublishingYear;
-
-  @UI.fieldGroup: [ { position: 50, qualifier: 'Details' } ]
-  @UI.lineItem: [ { position: 50 } ]
   @UI.selectionField: [ { position: 30 } ]
   RuntimeInMin;
 
-  @UI.fieldGroup: [ { position: 60, qualifier: 'Details' } ]
-  @UI.lineItem: [ { position: 10 } ]
+  @UI.fieldGroup: [ { position: 50, qualifier: 'Details' } ]
+  @UI.lineItem: [ { position: 1 } ]
   ImageUrl;
 
   @UI.fieldGroup: [ { position: 20, qualifier: 'Admin' } ]
@@ -53,4 +55,13 @@ annotate entity ZC_16_MovieTP
 
   @UI.fieldGroup: [ { position: 50, qualifier: 'Admin' } ]
   LastChangedBy;
+
+  @UI.fieldGroup: [ { position: 999, qualifier: 'Details', criticality: 'AverageRatingCriticality', criticalityRepresentation: #WITHOUT_ICON } ]
+  @UI.lineItem: [ { position: 999, criticality: 'AverageRatingCriticality', criticalityRepresentation: #WITHOUT_ICON } ]
+  @UI.selectionField: [ { position: 40 } ]
+  @UI.dataPoint: { criticality: 'AverageRatingCriticality' }
+  AverageRating;
+
+  @UI.hidden: true
+  AverageRatingCriticality;
 }

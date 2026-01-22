@@ -1,16 +1,10 @@
 @AccessControl.authorizationCheck: #NOT_REQUIRED
-
-@EndUserText.label: 'Rating Consumption View'
-
-@Metadata.ignorePropagatedAnnotations: true
-
+@EndUserText.label: 'Rating'
 @Metadata.allowExtensions: true
 define view entity ZC_16_RatingTP
   as projection on ZR_16_RatingTP
-
 {
   key RatingUuid,
-
       MovieUuid,
       UserName,
       Rating,

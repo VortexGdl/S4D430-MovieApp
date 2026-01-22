@@ -1,14 +1,18 @@
 @Metadata.layer: #CUSTOMER
 
-@UI.headerInfo: { typeNamePlural: 'Ratings', typeName: 'Rating', description.value: 'UserName' }
+@UI.headerInfo: { typeNamePlural: 'Ratings', title.value: 'Rating', description.value: 'UserName' }
 
-annotate entity ZC_16_RatingTP
-  with
+@UI.presentationVariant: [ { sortOrder: [ { by: 'RatingDate', direction: #DESC },
+                                          { by: 'UserName',   direction: #ASC  } ] } ]
+
+annotate entity ZC_00_RatingTP with
 
 {
-  // Facets
-  @UI.facet: [ { position: 10, type: #FIELDGROUP_REFERENCE, targetQualifier: 'Details', label: 'Rating Details'     },
-               { position: 20, type: #FIELDGROUP_REFERENCE, targetQualifier: 'Admin',   label: 'Administrativ Data' } ]
+  /* Facets */
+  @UI.facet: [ { position: 10, type: #FIELDGROUP_REFERENCE, targetQualifier: 'Details', label: 'Rating Details'      },
+               { position: 20, type: #FIELDGROUP_REFERENCE, targetQualifier: 'Admin',   label: 'Administrative Data' } ]
+
+  /* Fields */
   @UI.fieldGroup: [ { position: 10, qualifier: 'Admin' } ]
   RatingUuid;
 
@@ -16,14 +20,14 @@ annotate entity ZC_16_RatingTP
   MovieUuid;
 
   @UI.fieldGroup: [ { position: 10, qualifier: 'Details' } ]
-  @UI.lineItem: [ { position: 30 } ]
+  @UI.lineItem: [ { position: 10 } ]
   UserName;
 
   @UI.fieldGroup: [ { position: 20, qualifier: 'Details' } ]
-  @UI.lineItem: [ { position: 40 } ]
+  @UI.lineItem: [ { position: 20 } ]
   Rating;
 
   @UI.fieldGroup: [ { position: 30, qualifier: 'Admin' } ]
-  @UI.lineItem: [ { position: 50 } ]
+  @UI.lineItem: [ { position: 30 } ]
   RatingDate;
 }

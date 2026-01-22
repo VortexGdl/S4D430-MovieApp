@@ -2,7 +2,7 @@
 
 @AccessControl.authorizationCheck: #NOT_REQUIRED
 
-@EndUserText.label: 'Movie Consumption View'
+@EndUserText.label: 'Movie'
 
 @Metadata.allowExtensions: true
 
@@ -18,16 +18,22 @@ define root view entity ZC_16_MovieTP
       @Search.fuzzinessThreshold: 0.7
       Title,
 
+      @ObjectModel.text.element: [ 'GenreText' ]
       Genre,
+
       PublishingYear,
       RuntimeInMin,
-      @Semantics.imageUrl
       ImageUrl,
       CreatedAt,
       CreatedBy,
       LastChangedAt,
       LastChangedBy,
-      
-      //Association
+
+      /* Transient Data */
+      _AverageRating.AverageRating,
+      _AverageRating.AverageRatingCriticality as AverageRatingCriticality,
+      _GenreText.GenreText,
+
+      /* Associations */
       _Ratings : redirected to composition child ZC_16_RatingTP
 }
