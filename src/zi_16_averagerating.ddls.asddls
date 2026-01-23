@@ -12,11 +12,11 @@ define view entity ZI_16_AverageRating
 
       @EndUserText.label: 'Average Rating'
       @EndUserText.quickInfo: 'Average Rating'
-      avg(rating as abap.dec(4,1)) as AverageRating,
+      avg(rating as abap.dec(14,1)) as AverageRating,
 
-      case when avg(rating as abap.dec(4,1)) > 6.7 then 3
-           when avg(rating as abap.dec(4,1)) > 3.4 then 2
-           when avg(rating as abap.dec(4,1)) > 0 then 1
+      case when avg(rating as abap.dec(14,1)) > 6.7 then 3
+           when avg(rating as abap.dec(14,1)) > 3.4 then 2
+           when avg(rating as abap.dec(14,1)) > 0 then 1
       else 0 end                   as AverageRatingCriticality
 }
 

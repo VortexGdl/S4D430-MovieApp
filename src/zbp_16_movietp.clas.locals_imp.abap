@@ -9,24 +9,19 @@ ENDCLASS.
 
 CLASS lhc_rating IMPLEMENTATION.
   METHOD DetermineUser.
+    DATA ratings TYPE TABLE FOR UPDATE zr_16_ratingtp.
 
+    LOOP AT keys INTO DATA(key).
+      APPEND VALUE #( %tky       = key-%tky
+                      username   = sy-uname
+                      ratingdate = sy-datum ) TO ratings.
+    ENDLOOP.
 
-      DATA ratings type TABLE FOR update zr_16_ratingtp.
-
-      LOOP AT keys into data(key).
-          APPEND value #( %tky = key-%tky
-                          username = sy-uname
-                          ratingdate = sy-datum ) to ratings.
-      endloop.
-
-
-      modify ENTITIES OF zr_16_movietp in LOCAL mode
-        entity Rating
-        UPDATE
-        FIELDS ( username ratingdate )
-        with ratings.
-
-
+    MODIFY ENTITIES OF zr_16_movietp IN LOCAL MODE
+           ENTITY Rating
+           UPDATE
+           FIELDS ( username ratingdate )
+           WITH ratings.
   ENDMETHOD.
 ENDCLASS.
 
@@ -40,6 +35,8 @@ CLASS lhc_Movie DEFINITION INHERITING FROM cl_abap_behavior_handler.
       IMPORTING REQUEST requested_authorizations FOR Movie RESULT result.
     METHODS ValidateGenre FOR VALIDATE ON SAVE
       IMPORTING keys FOR Movie~ValidateGenre.
+    METHODS RateMovie FOR MODIFY
+      IMPORTING keys FOR ACTION Movie~RateMovie. " RESULT result.
 
 ENDCLASS.
 
@@ -83,5 +80,51 @@ CLASS lhc_Movie IMPLEMENTATION.
       ENDIF.
 
     ENDLOOP.
+  ENDMETHOD.
+
+  METHOD RateMovie.
+    DATA ratings TYPE TABLE FOR CREATE ZR_16_MovieTP\_Ratings.
+
+    DATA(valid_keys) = keys.
+
+    " Process Movie Keys
+    LOOP AT keys INTO DATA(key).
+
+      " Validate Rating
+      IF key-%param-Rating >= 1 AND key-%param-Rating <= 10.
+        CONTINUE.
+      ENDIF.
+
+      " Create Error Message
+      DATA(message) = NEW zcm_abap_movie( textid   = zcm_abap_movie=>invalid_rating
+                                          rating   = key-%param-Rating
+                                          severity = if_abap_behv_message=>severity-error ).
+      APPEND VALUE #( %tky              = key-%tky
+                      %msg              = message
+                      %action-RateMovie = if_abap_behv=>mk-on ) TO reported-movie.
+
+      APPEND VALUE #( %tky = key-%tky ) TO failed-movie.
+
+      DELETE valid_keys WHERE %tky = key-%tky.
+
+    ENDLOOP.
+
+    " Check Movie-Keys
+    IF valid_keys IS INITIAL.
+      RETURN.
+    ENDIF.
+
+    " Create Ratings
+    LOOP AT valid_keys INTO key.
+      APPEND VALUE #( %tky    = key-%tky
+                      %target = VALUE #( ( Rating = key-%param-Rating ) ) ) TO ratings.
+    ENDLOOP.
+
+    MODIFY ENTITIES OF zr_16_movietp IN LOCAL MODE
+           ENTITY Movie
+           CREATE BY \_Ratings
+           AUTO FILL CID
+           FIELDS ( Rating )
+           WITH ratings.
   ENDMETHOD.
 ENDCLASS.

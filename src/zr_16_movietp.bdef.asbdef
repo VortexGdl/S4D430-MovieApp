@@ -21,6 +21,8 @@ authorization master ( instance )
 
   validation ValidateGenre on save { create; }
 
+  action RateMovie parameter ZA_16_Rating; // result [1] $self;
+
   mapping for zabap_movie_a corresponding
     {
       Genre          = genre;
@@ -45,10 +47,10 @@ authorization dependent by _Movie
 {
   update;
   delete;
-  field ( readonly ) RatingUuid, MovieUuid;
-  association _Movie;
+    field ( readonly, numbering : managed ) RatingUuid;
+    association _Movie;
 
-  field (readonly) RatingDate, UserName;
+  field (readonly) MovieUUid, RatingDate, UserName;
 
   determination DetermineUser on save { create; }
 

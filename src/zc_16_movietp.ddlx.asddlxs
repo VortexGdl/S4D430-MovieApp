@@ -17,6 +17,13 @@ annotate entity ZC_16_MovieTP with
                { position: 20, type: #FIELDGROUP_REFERENCE, label: 'Administrative Data', targetQualifier: 'Admin' },
                { position: 30, type: #LINEITEM_REFERENCE, label: 'Ratings', targetElement: '_Ratings' } ]
 
+// Actions
+  @UI.identification: [{ position: 10,
+                    type: #FOR_ACTION,
+                    label: 'Rate Movie',
+                    dataAction: 'RateMovie' }]
+  @UI.lineItem: [ { position: 10, type: #FOR_ACTION, label: 'Rate Movie', dataAction: 'RateMovie' } ]
+
   /* Fields */
   @UI.fieldGroup: [ { position: 10, qualifier: 'Admin' } ]
   MovieUuid;
