@@ -33,7 +33,7 @@ define root view entity ZC_16_MovieTP
 
       /* Transient Data */
       _AverageRating.AverageRating,
-      _AverageRating.AverageRatingCriticality as AverageRatingCriticality,
+      _AverageRating.AverageRatingCriticality,
       _GenreText.GenreText,
 
       /* Associations */

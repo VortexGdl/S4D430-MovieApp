@@ -5,7 +5,7 @@
 @UI.presentationVariant: [ { sortOrder: [ { by: 'RatingDate', direction: #DESC },
                                           { by: 'UserName',   direction: #ASC  } ] } ]
 
-annotate entity ZC_00_RatingTP with
+annotate entity ZC_16_RatingTP with
 
 {
   /* Facets */

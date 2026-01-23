@@ -17,8 +17,9 @@ authorization master ( instance )
   field ( mandatory : create ) Genre, Title, PublishingYear, RuntimeInMin;
   field ( readonly : update ) Genre, Title, PublishingYear, RuntimeInMin;
 
-  validation ValidateGenre on save { create; }
+  field ( readonly ) CreatedAt, CreatedBy, LastChangedAt, LastChangedBy;
 
+  validation ValidateGenre on save { create; }
 
   mapping for zabap_movie_a corresponding
     {
@@ -46,6 +47,10 @@ authorization dependent by _Movie
   delete;
   field ( readonly ) RatingUuid, MovieUuid;
   association _Movie;
+
+  field (readonly) RatingDate, UserName;
+
+  determination DetermineUser on save { create; }
 
   mapping for zabap_rating_a corresponding
     {
